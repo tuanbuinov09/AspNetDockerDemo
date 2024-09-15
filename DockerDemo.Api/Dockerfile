@@ -9,15 +9,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["DockerDemo.Api/DockerDemo.Api.csproj", "DockerDemo.Api/"]
-RUN dotnet restore "./DockerDemo.Api/DockerDemo.Api.csproj"
+
+COPY ["DockerDemo.Api.csproj", "."]
+RUN dotnet restore "DockerDemo.Api.csproj"
+
 COPY . .
-WORKDIR "/src/DockerDemo.Api"
-RUN dotnet build "./DockerDemo.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src"
+RUN dotnet build "DockerDemo.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./DockerDemo.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "DockerDemo.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
