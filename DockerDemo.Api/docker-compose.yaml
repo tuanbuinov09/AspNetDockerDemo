@@ -1,0 +1,35 @@
+services:
+  mssqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-CU28-ubuntu-20.04
+    container_name: mssqlserver2019
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=@Docker12E
+    volumes:
+      - mssqlserver-data-volume:/var/opt/mssql/data
+  redis:
+    image: redis:7.4.0
+    container_name: redis
+    restart: always
+    # command: /bin/sh -c "redis-server --requirepass $$REDIS_HOST_PASSWORD"
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data-volume:/var/lib/redis/data
+    env_file:
+      - docker-compose.env #you can also use .env file instead of environment: as above with mssql container
+volumes:
+  mssqlserver-data-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: F:/_C0d3/mssql-data-volume #your local path goes here
+  redis-data-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: F:/_C0d3/redis-data-volume #your local path goes here
