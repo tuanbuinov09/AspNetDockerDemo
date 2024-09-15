@@ -11,6 +11,6 @@
 
 ###3. Run "docker build -t dockerdemo.api:1.0 ." from project directory to create the image for the app
 
-###4. Run "docker run --name dockerdemo.api -p 8080:8080 dockerdemo.api:1.0" to run the app
+###4. Run "docker run --name dockerdemo.api -p 8080:8080 dockerdemo.api:1.0" to run the created image
 
-Now you can access http://localhost:8080/swagger/index.html to use the app
+Now you can access http://localhost:8080/swagger/index.html to see the API definitions
